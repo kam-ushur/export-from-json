@@ -16,6 +16,7 @@ export interface IOption<R = void> {
   beforeTableEncode?: (
     tableRow: Array<{ fieldName: string, fieldValues: string[] }>,
   ) => Array<{ fieldName: string, fieldValues: string[]}>
+  sanitizeCell?: (value: string, delimiter: ',' | ';') => string
   delimiter?: ',' | ';'
 }
 
@@ -31,6 +32,7 @@ function exportFromJSON<R = void> ({
   processor = downloadFile as never,
   withBOM = false,
   beforeTableEncode = (i) => i,
+  sanitizeCell,
   delimiter = ',',
 }: IOption<R>): R {
   const MESSAGE_IS_ARRAY_FAIL = 'Invalid export data. Please provide an array of objects'
@@ -67,7 +69,7 @@ function exportFromJSON<R = void> ({
     case 'csv': {
       assert(isArray(safeData), MESSAGE_IS_ARRAY_FAIL)
       const BOM = '\ufeff'
-      const CSVData = createCSVData(safeData, { beforeTableEncode, delimiter })
+      const CSVData = createCSVData(safeData, { beforeTableEncode, sanitizeCell, delimiter })
       const content = withBOM ? BOM + CSVData : CSVData
 
       return processor(content, exportType, normalizeFileName(fileName, extension ?? 'csv', fileNameFormatter))

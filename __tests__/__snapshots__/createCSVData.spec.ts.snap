@@ -27,3 +27,15 @@ hello,0,0,0,0,0,0,0,0
 0,foo,bar,0,0,0,0,0,0
 0,0,0,1000,"[1,2,3]","{""x"":200,""y"":300}",D,null,0"
 `;
+
+exports[`createCSVData works correctly with specifying sanitizeCell option 1`] = `
+"greeting,morequotes,simple,"he""a,der",foo,bar,fizz,buzz,complex1,complex2,formula1,formula2,jab,duck,uppercut,kick,a,b,c,d,e,f
+"hel""lo","""already quoted""",simple text,some header,,,,,,,,,,,,,,,,,,
+,,,,"foo, thing","b""a""r",,,,,,,,,,,,,,,,
+,,,,,,"some
+thing","b""a""r",,,,,,,,,,,,,,
+,,,,,,,,"=Hello, ""world""
+@2+2","b""a""r","""""""=2+5+cmd|'/C calc'!A0""""""","=1+2"";=1+2",,,,,,,,,,
+,,,,,,,,,,,,"=4523","+12","-12","@user",,,,,,
+,,,,,,,,,,,,,,,,100,"[1,2,3]","{""x"":200,""y"":300}",D,null,"
+`;

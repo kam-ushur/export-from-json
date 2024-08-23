@@ -130,7 +130,7 @@ http.createServer(function (request, response){
 | processor   | false    | `(content: string, type: ExportType, fileName: string) => any` | default to a front-end downloader
 | withBOM     | false    | boolean | Add BOM(byte order mark) meta to CSV file. BOM is expected by `Excel` when reading UTF8 CSV file. It is default to `false`.
 | beforeTableEncode     | false    | `(entries: { fieldName: string, fieldValues: string[] }[]) => { fieldName: string, fieldValues: string[] }[]` | Given a chance to altering table entries, only works for `CSV` and `XLS` file, by default no altering.
-| delimiter   | false    | `',' \| ';'` | Specify CSV raw data's delimiter between values. It is default to `,`
+| sanitizeCell | false    | `(value: string, delimiter: ',' \| ';') => string` | Alter the CSV injection sanitization algorithm, only works for `CSV` data. By default the rules are: 1) Fields that contain commas must begin and end with double quotes, 2) Fields that contain double quotes must begin and end with double quotes. 3) Fields that contain line breaks must begin and end with double quotes (not all programs support values with line breaks). 4) All other fields do not require double quotes.  5) Double quotes within values are represented by two contiguous double quotes.  | delimiter   | false    | `',' \| ';'` | Specify CSV raw data's delimiter between values. It is default to `,`
 
 ### Tips
 

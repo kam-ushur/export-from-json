@@ -120,17 +120,22 @@ function encloser (value: string, delimiter: ',' | ';') {
 
 interface CreateCSVDataOptions {
   beforeTableEncode?: (entries: ITableEntries) => ITableEntries,
+  sanitizeCell?: (value: string, delimiter: ',' | ';') => string,
   delimiter?: ',' | ';',
 }
 
-const defaultCreateCSVDataOption: Required<CreateCSVDataOptions> = { beforeTableEncode: i => i, delimiter: ',' }
+const defaultCreateCSVDataOption: Required<CreateCSVDataOptions> = {
+  beforeTableEncode: i => i,
+  sanitizeCell: encloser,
+  delimiter: ',',
+}
 
 // Reference: https://techterms.com/definition/csv
 export function createCSVData (
   data: any[],
   options: CreateCSVDataOptions = {},
 ) {
-  const { beforeTableEncode, delimiter } = { ...defaultCreateCSVDataOption, ...options }
+  const { beforeTableEncode, sanitizeCell = encloser, delimiter } = { ...defaultCreateCSVDataOption, ...options }
 
   if (!data.length) return ''
 
@@ -139,9 +144,10 @@ export function createCSVData (
 
   // Rule: Columns (fields) are separated by commas.
   // Rule: Rows are separated by line breaks (newline characters).
-  const head = tableEntries.map(({ fieldName }) => fieldName).join(delimiter) + '\r\n'
+  const head = tableEntries.map(({ fieldName }) => sanitizeCell(fieldName, delimiter)).join(delimiter) + '\r\n'
+
   const columns = tableEntries.map(({ fieldValues }) => fieldValues)
-    .map(column => column.map(value => encloser(value, delimiter)))
+    .map(column => column.map(value => sanitizeCell(value, delimiter)))
   const rows = columns.reduce(
     (mergedColumn, column) => mergedColumn.map((value, rowIndex) => `${value}${delimiter}${column[rowIndex]}`),
   )

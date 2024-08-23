@@ -12,6 +12,21 @@ export const testTableItems2 = [
   { a: 100, b: [ 1, 2, 3 ], c: { x: 200, y: 300 }, d: 'D', e: null, f: undefined },
 ]
 
+// More CSV Injection data
+export const testTableItems3 = [
+  { greeting: 'hel"lo', morequotes: '"already quoted"', simple: 'simple text', 'he"a,der': "some header" },
+  { foo: 'foo, thing', bar: 'b"a"r' },
+  { fizz: 'some\nthing', buzz: 'b"a"r' },
+  {
+    complex1: '=Hello, "world"\n@2+2',
+    complex2: 'b"a"r',
+    formula1: `"""=2+5+cmd|'/C calc'!A0"""`,
+    formula2: '=1+2";=1+2'
+  },
+  { jab: '=4523', duck: '+12', uppercut: '-12', kick: '@user' },
+  { a: 100, b: [ 1, 2, 3 ], c: { x: 200, y: 300 }, d: 'D', e: null, f: undefined },
+]
+
 export const testTableMap = {
   greeting: ['hello', '', ''],
   foo: ['', 'foo', ''],
